@@ -1,0 +1,16 @@
+(),
+and(0,not(or(and(1,1,0),1)),or(1,or(1,0,1,1),not(or(0,0,and(1,1,1)))))
+Для работы необходимо преобразовать дерево в бинарное (пункт в меню слева), что позволяет автомату работать с деревом, имеющим узлы с произвольным числом потомков.
+F: true
+(0, ) -> false
+(1, ) -> true
+(not, false) -> true
+(not, true) -> false
+(and, (false, false)) -> false
+(and, (false, true)) -> false
+(and, (true, false)) -> false
+(and, (true, true)) -> true
+(or, (false, false)) -> false
+(or, (false, true)) -> true
+(or, (true, false)) -> true
+(or, (true, true)) -> true

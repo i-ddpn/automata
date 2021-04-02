@@ -1,0 +1,16 @@
+(),
+S(NP(the,blue,dogs),VP(are,happy))
+[Transducer]
+I: q
+(S, q) -> S(q{1},q{2})
+(NP, q) -> NP(t{1},t{2},t{3})
+(NP, q) -> NP(t{1},t{3},t{2})
+(VP, q) -> VP(t{1},t{2})
+(the, t) -> los
+(blue, t) -> azules
+(bears, t) -> osos
+(dogs, t) -> perros
+(are, t) -> son
+(are, t) -> estan
+(strong, t) -> fuertes
+(happy, t) -> felices

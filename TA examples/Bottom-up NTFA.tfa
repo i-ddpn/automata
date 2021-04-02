@@ -1,0 +1,8 @@
+[]|
+g[g[f[g[a]|a]]]
+F: qf
+(a, ) -> q
+(g, q) -> q
+(g, q) -> qg
+(g, qg) -> qf
+(f, (q, q)) -> q

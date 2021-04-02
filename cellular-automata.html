@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <title>Клеточный автомат</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+        <div clas="nav">
+            <a class="nav-tab" href="turing-machine.html">Машина Тьюринга</a><a class="nav-tab" href="tree-automata.html">Автоматы на деревьях</a><a class="nav-tab nav-tab-active" href="cellular-automata.html">Клеточные автоматы</a>    
+        </div>
+        <div class="container">
+            <div class="header">
+                <div class="header-column">
+                    <p>Размерность: <span id="dimension-info">-</span></p>
+                </div>
+                <div class="header-column">
+                    <p>Статус поля: <strong id="field-applied-info">не загружено</strong></p>
+                    <p>Размер поля: <span id="width-info">0</span> × <span id="height-info">0</span></p>
+                    <p>Количество состояний: <span id="number-of-states-info">-</span></p>
+                </div>
+                <div class="header-column">
+                    <p>Статус окрестности: <strong id="neighbourhood-applied-info">не загружена</strong></p>
+                    <p>Количество клеток: <span id="neighbourhood-length-info">0</span></p>
+                </div>
+                <div class="header-column">
+                    <p>Правила перехода: <strong id="rule-applied-info">не заданы</strong></p>
+                    <p>На границе: <span id="border-type-info">как плоскость</span></p>
+                    <p>Поколение: <span id="generation-info">0</span></p>
+                </div>
+            </div>
+            <div class="sidebar">
+                <p><button id="step" disabled>Шаг</button></p>
+                <p>Автоматически:</p>
+                <p><input type="number" class="input number-input" id="sps" value="5" max="100" min="1"> шагов в секунду</p>
+                <p><button id="run" disabled>Запустить</button></p>
+                <p><button id="stop" disabled>Остановить</button></p>
+                <hr>
+                <p><input type="file" class="hidden" id="open-file"><button id="open">Загрузить из файла</button></p>
+                <p><button id="save">Сохранить в файл</button></p>
+                <hr>
+                <p><button id="help">Помощь</button></p>
+            </div>
+            <div class="main">
+                <div class="box">
+                    <div class="bordered" id='svg-box'>
+                        <svg id="svg" viewBox="0 0 200 100"></svg>
+                    </div>
+                </div>
+                <div class="box" id="info">
+                    <div class="tabs">
+                        <span class="tab tab-active" data-for="dim" id="tab-dim">Размерность</span><span class="tab" data-for="field" id="tab-field">Поле</span><span class="tab" data-for="neighbourhood" id="tab-neighbourhood">Окрестность</span><span class="tab" data-for="rule" id="tab-rule">Правила перехода</span>
+                    </div>
+                    <div id="dim" class="tab-content">
+                        <p>Размерность: <select class="input" id="dimension"><option value="0">Одномерный</option><option value="1" selected>Двумерный</option></select></p>
+                        <p><button class="button" id="dim-apply">Применить</button></p>
+                    </div>
+                    <div id="field" class="hidden tab-content">
+                        <div class="hidden" id="field-content">
+                            <p>Размер поля (клеток): <input type="number" class="input number-input" id="width" value="300" min="10" max="999"> × <input type="number" class="input number-input" id="height" value="300" min="10" max="999"></p>
+                            <p><span class="spoiler-header" data-for="states-spoiler">Состояния</span></p>
+                            <div class="spoiler-content bordered" id="states-spoiler">
+                                <div id="states-list"></div>
+                                <p><button class="button" id="add-state">Добавить состояние</button></p>
+                            </div>
+                            <p>Заполнение: <select class="input" id="fill-type"><option value="0">Из изображения</option><option value="1" selected>Функцией</option></select></p>
+                            <hr>
+                            <div id="load-image-box" class="spoiler-content">
+                                <p>Изображение: <input type="file" class="hidden" id="open-image-file"><button id="open-image">Загрузить</button> <span class="msg" id="msg-image">Изображение не загружено</span></p>
+                            </div>
+                            <div id="load-function-box">
+                                <p>Функция:</p>
+                                <p>Готовые: <select class="input" id="functions-list"></select> <button class="button" id="load-function">Загрузить</button></p>
+                                <p><textarea id="field-function" class="input input-wide input-medium bordered"></textarea></p>
+                            </div>
+                            <p><button id="field-apply">Отобразить поле</button></p>
+                        </div>
+                        <div id="field-msg">
+                            <p>Сначала необходимо выбрать размерность.</p>
+                        </div>
+                    </div>
+                    <div id="neighbourhood" class="hidden tab-content">
+                        <div class="hidden" id="neighbourhood-content">
+                            <p>Окрестность: </p>
+                            <p>Шаблон: <select class="input" id="n-template"><option value="0">Мура</option><option value="1" selected>фон Неймана</option></select></p>
+                            <table id="neighbourhood-table" class="n-table"></table>
+                            <p><button class="button" id="inc-neighbourhood-table">Увеличить</button> <button class="button" id="dec-neighbourhood-table">Уменьшить</button></p>
+                            <hr>
+                            <p><button class="button" id="n-apply">Подтвердить окрестность</button></p>
+                        </div>
+                        <div id="neighbourhood-msg">
+                            <p>Сначала необходимо выбрать размерность.</p>
+                        </div>
+                    </div>
+                    <div id="rule" class="hidden tab-content">
+                        <div class="hidden" id="rule-content">
+                            <p>Поведение на границе: <select class="input" id="set-border"><option value="0" selected>Поле — плоскость</option><option value="1">Поле — поверхность тора</option></select></p>
+                            <p>Способ задания: <select class="input" id="set-type"><option value="0">Конструктор</option><option value="1" selected>Функция</option><option value="2" disabled id="wolfram-opt">Код Вольфрама</option></select></p>
+                            <hr>
+                            <div id="constructor-box" class="spoiler-content">
+                                <p>Номер перехода (0 — <span id="max-transition-number">0</span>): <input type="number" class="input input-moderate" id="transition-number" min="0"></p>
+                                <p>Состояние окрестности:</p>
+                                <table id="constructor-table" class="n-table"></table>
+                                <p>Переход в:</p>
+                                <table class="n-table"><tr><td id="constructor-transition"></td></tr></table>
+                            </div>
+                            <div id="load-rule-box">
+                                <p>Функция:</p>
+                                <p>Готовые: <select class="input" id="rules-list"></select> <button class="button" id="load-rule">Загрузить</button></p>
+                                <p><textarea id="rule-function" class="input input-wide input-medium bordered"></textarea></p>
+                                <p><button id="rule-apply">Применить функцию</button> <span class="msg" id="msg-rule"></span></p>
+                            </div>
+                            <div id="wolfram-code-box" class="spoiler-content">
+                                <p>Код Вольфрама (0 — <span id="max-wolfram-code">0</span>): <input type="number" class="input input-moderate" id="wolfram-code" min="0"> <button class="button" id="wolfram-apply">Применить</button></p>
+                            </div>
+                        </div>
+                        <div id="rule-msg">
+                            <p>Сначала необходимо задать поле и окрестность.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="popup">
+            <div class="popup-close link" id="close-help">Закрыть</div>
+            <div class="popup-text">
+                <p><strong>Вкладка "Размерность"</strong></p>
+                <p>Здесь выбирается размерность автомата: одномерный или двумерный.</p>
+                <p><strong>Вкладка "Поле"</strong></p>
+                <p>Здесь задаются свойства плоскости, на которой определено множество конечных автоматов.</p>
+                <p>Плоскость определяется таблицей состояний конечных автоматов.</p>
+                <p><em>Размер поля.</em> Задает ширину и высоту таблицы состояний. Одна единица - один автомат.</p>
+                <p><em>Состояния.</em> Задает количество состояний конечного автомата и цвет, которым будет помечен автомат, находящийся в этом состоянии.</p>
+                <p><em>Заполнение.</em> Задает способ, которым будут присвоены начальные состояния автоматов.</p>
+                <p>Доступные опции:</p>
+                <p>- Функция. Это функция на языке JavaScript.</p>
+                <p>Принимает 3 параметра: (1) номер строки в таблице состояний, (2) номер столбца в таблице состояний, (3) объект, содержащий свойства поля.</p>
+                <p>Возвращает номер состояния ячейки таблицы, соответствующей номерам строки и столбца.</p>
+                <p>Доступно несколько готовых функций, которые можно загрузить в поле ввода функции и при необходимости отредактировать.</p>
+                <p>- Из изображения. Позволяет загрузить изображение, определяющее таблицу состояний.</p>
+                <p>Один пиксель определяет одну ячейку таблицы.</p>
+                <p>Цвет пикселя определяет состояние. Различным цветам соответствуют различные состояния.</p>
+                <p><strong>Вкладка "Окрестность".</strong></p>
+                <p>Здесь задается окрестность конечного автомата, на которой определены правила перехода.</p>
+                <p>Окрестность может быть выбрана произвольной. Для удобства есть возможность применить шаблон (окрестность Мура или окрестность фон Неймана).</p>
+                <p><strong>Вкладка "Правила перехода".</strong></p>
+                <p>Здесь определяется поведение клеточного автомата.</p>
+                <p><em>Поведение на границе.</em> Определяет состояние окрестности клеток, у которых нет некоторых соседей.</p>
+                <p>Доступные опции:</p>
+                <p>- Поле — плоскость. Состояние клетки окрестности, соответствующей отсутствующему соседу, принимается равной состоянию с номером 0.</p>
+                <p>- Поле — поверхность тора. Состояние клетки окрестности, соответствующей отсутствующему соседу, принимается равной состоянию клетки на противоположной границе поля.</p>
+                <p><em>Способ задания.</em></p>
+                <p>Доступные опции:</p>
+                <p>- Конструктор. Позволяет задать отдельный переход.</p>
+                <p>Здесь можно выбрать состояние окрестности и соответствующий этому состоянию переход.</p>
+                <p>- Функция. Это функция на языке JavaScript.</p>
+                <p>Принимает 2 параметра: (1) массив, содержащий номера состояний клеток окрестности (в порядке слева направо сверху вниз), (2) объект, содержащий свойства автомата.</p>
+                <p>Возвращает номер состояния, в которое перейдет конечный автомат, соответствующее данному набору состояний клеток окрестности.</p>
+                <p>Доступно несколько готовых функций, которые можно загрузить в поле ввода функции и при необходимости отредактировать.</p>
+                <p>- Код Вольфрама. Доступно только для одномерных автоматов. Позволяет определить правила перехода с помощью кода Вольфрама.</p>
+            </div>
+        </div>
+        <script src="ca.js" type="text/javascript"></script>
+    </body>
+</html>

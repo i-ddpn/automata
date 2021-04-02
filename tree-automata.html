@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <title>Автоматы на деревьях</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+        <div clas="nav">
+            <a class="nav-tab" href="turing-machine.html">Машина Тьюринга</a><a class="nav-tab nav-tab-active" href="tree-automata.html">Автоматы на деревьях</a><a class="nav-tab" href="cellular-automata.html">Клеточные автоматы</a>    
+        </div>
+        <div class="container">
+            <div class="header">
+                <div class="header-column">
+                    <p>Тип: <span id="automaton-type">-</span></p>
+                </div>
+                <div class="header-column">
+                    <p>Количество деревьев: <span id="number-of-trees">0</span></p>
+                    <p>Текущее дерево: <span id="current-tree">-</span></p>
+                </div>
+                <div class="header-column">
+                    <p>Состояние для текущего дерева: <strong id="status">-</strong></p>
+                    <p>Общее состояние: <strong id="general-status">-</strong></p>
+                </div>
+            </div>
+            <div class="sidebar">
+                <p class="view-mode-buttons">Отображать:</p>
+                <p><select class="input" id="view-mode"><option value="mix">Состояния</option><option value="name" selected>Имена узлов</option></select></p>
+                <hr>
+                <p><button id="step" disabled>Шаг</button></p>
+                <p>Автоматически:</p>
+                <p><input type="number" class="input number-input" id="sps" value="5" max="100" min="1"> шагов в секунду</p>
+                <p><button id="run" disabled>Запустить</button></p>
+                <p><button id="stop" disabled>Остановить</button></p>
+                <hr>
+                <p><button id="run-full">Выполнить до остановки</button></p>
+                <p><button id="run-all">Выполнить все</button></p>
+                <hr>
+                <p><button id="apply-ranking">Преобразовать в бинарное</button></p>
+                <hr>
+                <p><input type="file" class="hidden" id="open-file"><button id="open">Загрузить из файла</button></p>
+                <p><button id="save">Сохранить в файл</button></p>
+                <hr>
+                <p><button id="help">Помощь</button></p>
+            </div>
+            <div class="main">
+                <div class="box">
+                    <div class="bordered" id='svg-box'>
+                        <svg id="svg" viewBox="0 0 200 100"></svg>
+                    </div>
+                </div>
+                <div class="box" id="info">
+                    <div class="tabs">
+                        <span class="tab tab-active" data-for="input" id="tab-input">Ввод автомата</span><span class="tab" data-for="transitions" id="tab-transitions">Переходы</span><span class="tab" data-for="history" id="tab-history">История</span><span class="tab" data-for="tree-list" id="tab-tree-list">Список деревьев</span>
+                    </div>
+                    <div id="input" class="tab-content">
+                        <p>Специальные символы: <input type="text" id="symbols" class="input bordered input-symbols" maxlength="3" value="(),"></p>
+                        <p>Дерево:</p>
+                        <p><input type="text" id="tree" class="input input-wide bordered"></p>
+                        <p>Автомат:</p>
+                        <p><textarea id="automaton" class="input input-wide input-high bordered"></textarea></p>
+                        <p><button id="load">Загрузить</button></p>
+                    </div>
+                    <div id="transitions" class="hidden tab-content"></div>
+                    <div id="history" class="hidden tab-content"></div>
+                    <div id="tree-list" class="hidden tab-content"></div>
+                </div>
+            </div>
+        </div>
+        <div class="popup">
+            <div class="popup-close link" id="close-help">Закрыть</div>
+            <div class="popup-text">
+                <p><strong>Поле "Специальные символы"</strong></p>
+                <p>Здесь вводятся символы, используемые для задания дерева: скобки и разделитель.</p>
+                <p><strong>Поле "Дерево"</strong></p>
+                <p>Для задания дерева необходимо ввести имя узла и в скобках потомков, которые задаются так же. Если у узла нет потомков, то скобки не вводятся.</p>
+                <p><strong>Поле "Автомат"</strong></p>
+                <p><strong>F: q1, q2, q3</strong> - задать конечные состояния.</p>
+                <p><strong>I: q0</strong> - задать начальное состояние (Top-down).</p>
+                <p>Переходы задаются так:</p>
+                <p><strong>(a, q0) -> q1</strong> или <strong>(a, (q1, q2, q3)) -> q4</strong> для Bottom-up автоматов</p>
+                <p><strong>(a, q0) -> q1</strong> или <strong>(a, q1) -> (q2, q3, q4)</strong> для Top-down автоматов.</p>
+                <p>Для листьев состояние остается пустым: <strong>(a, ) -> q1</strong>.</p>
+                <p>Для задания ε-перехода вместо имени узла вводится состояние: <strong>(q0, ) -> q1</strong>.</p>
+                <p><strong>Вкладка "Переходы"</strong></p>
+                <p>После загрузки автомата здесь появятся все заданные переходы. Последний выполненный переход будет выделен.</p>
+                <p><strong>Вкладка "История"</strong></p>
+                <p>Здесь выводится список преобразований дерева для каждого шага.</p>
+                <p><strong>Вкладка "Список деревьев"</strong></p>
+                <p>В случае, если автомат недетерминированный (в том числе, если имеет ε-переходы), здесь будут отображаться все варианты работы автомата для переходов с одинаковой левой частью. Чтобы сделать какое-либо дерево активным, необходимо кликнуть по нему в списке. Кроме того, во вкладке "История", если дерево было получено в результате недетерминированного перехода, появится соответствующая строка, например, "N2", что значит, что данное дерево получено из дерева номер 2 в результате недетерминированного перехода. Аналогично для ε-переходов: например, "E3". По этим записям также можно перейти к соответствующему дереву.</p>
+                <p><strong>Область просмотра дерева</strong></p>
+                <p>Здесь отображается дерево. Область можно масштабировать колесиком мыши, а также перемещаться в ней, зажав левую кнопку мыши.</p>
+                <p>В верхнем блоке страницы можно переключать отображение имен узлов и состояний.</p>
+            </div>
+        </div>
+        <script src="ta.js" type="text/javascript"></script>
+    </body>
+</html>

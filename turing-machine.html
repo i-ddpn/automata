@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <title>Машина Тьюринга</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+        <div clas="nav">
+            <a class="nav-tab nav-tab-active" href="turing-machine.html">Машина Тьюринга</a><a class="nav-tab" href="tree-automata.html">Автоматы на деревьях</a><a class="nav-tab" href="cellular-automata.html">Клеточные автоматы</a>    
+        </div>
+        <div class="container">
+            <div class="header">
+                <div class="header-column">
+                    <p>Тип: <span id="machine-type">-</span></p>
+                </div>
+                <div class="header-column">
+                    <p>Количество лент: <span id="number-of-tapes">0</span></p>
+                    <p>Количество головок: <span id="number-of-heads">0</span></p>
+                </div>
+                <div class="header-column">
+                    <p>Статус выполнения: <strong id="status">-</strong></p>
+                    <p>Текущее состояние: <strong id="current-state">-</strong></p>
+                </div>
+            </div>
+            <div class="sidebar">
+                <p><button id="step">Шаг</button></p>
+                <p>Автоматически:</p>
+                <p><input type="number" class="input sps-input" id="sps" value="5" max="100" min="1"> шагов в секунду</p>
+                <p><button id="run">Запустить</button></p>
+                <p><button id="stop" disabled>Остановить</button></p>
+                <hr>
+                <p><button id="clear-tapes">Очистить ленты</button></p>
+                <p><button id="reset-state">Начальное состояние</button></p>
+                <hr>
+                <p><input type="file" class="hidden" id="open-file"><button id="open">Загрузить из файла</button></p>
+                <p><button id="save">Сохранить в файл</button></p>
+                <hr>
+                <p><button id="help">Помощь</button></p>
+            </div>
+            <div class="main">
+                <div class="box">
+                    <div class="main-field" id='tapes-panel'>
+                    </div>
+                </div>
+                <div class="box" id="info">
+                    <div class="tabs">
+                        <span class="tab tab-active" data-for="input" id="tab-input">Текст программы</span><span class="tab" data-for="transitions" id="tab-transitions">Переходы</span><span class="tab" data-for="history" id="tab-history">История</span>
+                    </div>
+                    <div id="input" class="tab-content">
+                        <p><textarea id="program-text" class="input input-wide input-high bordered"></textarea></p>
+                        <p><button id="load">Загрузить</button></p>
+                    </div>
+                    <div id="transitions" class="hidden tab-content"></div>
+                    <div id="history" class="hidden tab-content input-wide"></div>
+                    <div id="tree-list" class="hidden tab-content"></div>
+                </div>
+            </div>
+        </div>
+        <div class="popup">
+            <div class="popup-close link" id="close-help">Закрыть</div>
+            <div class="popup-text">
+            <p><strong>(T: ABCD)</strong> - начальная конфигурация ленты.</p>
+            <p><strong>(IS: q0)</strong> - начальное состояние.</p>
+            <p><strong>(FS: q10)</strong> - конечное состояние.</p>
+            <p><strong>(FS: q10, q11, q12)</strong> - конечные состояния.</p>
+            <p><strong>(BS: #)</strong> - пустой символ.</p>
+            <p><strong>(SG: (q0, q2), (q1, q3))</strong> - группы состояний головок для многоголовочной МТ.</p>
+            <p>Переходы задаются так:</p>
+            <p><strong>(q0, a) -> (q1, b, R)</strong></p>
+            <p><strong>(q0, (a, b, c)) -> (q1, (d, e, f), (R, L, N))</strong></p>
+            <p>Допустимые направления:</p>
+            <p>R, r - вправо,</p>
+            <p>L, l - влево,</p>
+            <p>N, n - остаться на месте.</p>
+            <p>Также допускается любой другой текст в любом месте вне описаний (например, комментарии).</p>
+        </div>
+        </div>
+        <script src="tm.js" type="text/javascript"></script>
+    </body>
+</html>

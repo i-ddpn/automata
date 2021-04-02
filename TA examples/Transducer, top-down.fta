@@ -1,0 +1,13 @@
+(),
+f(g(f(a,g(a))),f(g(f(f(f(a,a),g(a)),a)),a))
+[Transducer]
+I: start
+(f, start) -> F(start{1},start{2})
+(g, start) -> G(F(copy{1},mirror{1}))
+(a, start) -> a
+(f, copy) -> F(copy{1},copy{2})
+(g, copy) -> G(copy{1})
+(a, copy) -> a
+(f, mirror) -> F(mirror{2},mirror{1})
+(g, mirror) -> G(mirror{1})
+(a, mirror) -> a

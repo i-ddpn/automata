@@ -1,0 +1,360 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #efefef;
+    font-family: sans-serif;
+    font-size: 16px;
+}
+
+.nav {
+    width: 100%;
+}
+
+.nav-tab {
+    text-align: center;
+    font-weight: bold;
+    width: 33.3%;
+    color: white;
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: cornflowerblue;
+    border-bottom: 5px solid royalblue;
+    border-right: 1px solid royalblue;
+    text-decoration: none;
+}
+
+.nav-tab:hover {
+    background-color: royalblue;
+}
+
+.nav-tab-active {
+    background-color: hotpink;
+    border-bottom: 5px solid deeppink;
+}
+
+.nav-tab-active:hover {
+    background-color: deeppink;
+}
+
+.container {
+    min-width: 1350px;
+}
+
+.header {
+    width: 100%;
+    overflow: auto;
+    border-bottom: 3px solid cornflowerblue;
+}
+
+.header-column {
+    float: left;
+    padding: 5px 50px;
+    font-size: 16px;
+}
+
+.main {
+    background-color: white;
+    overflow: auto;
+    max-width: 1150px;
+    border: 3px solid cornflowerblue;
+    border-top: 0;
+}
+
+.sidebar {
+    float: left;
+    width: 220px;
+    background-color: #efefef;
+}
+
+.sidebar button {
+    width: 100%;
+}
+
+.sidebar p {
+    padding: 5px;
+}
+
+.box {
+    float: left;
+    margin: 5px;
+}
+
+.main p {
+    padding: 3px;
+    word-break: break-all;
+}
+
+.tab {
+    color: white;
+    display: inline-block;
+    padding: 15px 10px;
+    background-color: cornflowerblue;
+    border-bottom: 2px solid royalblue;
+    border-right: 1px solid royalblue;
+    cursor: pointer;
+    transition: background 0.4s ease;
+}
+
+.tab:hover {
+    background-color: royalblue;
+}
+
+.tab-active {
+    background-color: hotpink;
+    border-bottom: 2px solid deeppink;
+}
+
+.tab-active:hover {
+    background-color: deeppink;
+}
+
+textarea {
+    resize: none;
+}
+
+.input {
+    padding: 7px;
+    font-size: 16px;
+    font-family: monospace;
+}
+
+.input-wide {
+    width: 450px;
+}
+
+.input-high {
+    height: 350px;
+}
+
+.input-short {
+    width: 50px;
+}
+
+.input-medium {
+    height: 250px;
+}
+
+.input-moderate {
+    width: 125px;
+}
+
+.input-symbols {
+    width: 50px;
+}
+
+.hidden {
+    display: none;
+}
+
+.main-field {
+    width: 600px;
+}
+
+#svg {
+    width: 600px;
+    height: 600px;
+    cursor: move;
+}
+
+#info {
+    max-width: 500px;
+}
+
+#info div {
+    max-height: 550px;
+    overflow: auto;
+}
+
+#transitions {
+    font-family: monospace;
+}
+
+#transitions p {
+    transition: background 0.4s ease;
+}
+
+.last-transition {
+    background-color: mediumslateblue;
+    color: white;
+}
+
+circle {
+    transition: fill 1s ease, stroke-width 0.4s ease;
+}
+
+circle:hover {
+    stroke-width: 2px;
+    stroke: midnightblue;
+}
+
+.bordered {
+    border: 1px solid midnightblue;
+}
+
+#history {
+    font-size: 16px;
+}
+
+.link {
+    color: crimson;
+}
+
+.link:hover {
+    color: darksalmon;
+}
+
+.link, .link:hover, .spoiler, circle {
+    cursor: pointer;
+}
+
+button {
+    color: white;
+    border-radius: 6px;
+    border: none;
+    border-bottom: 2px solid royalblue;
+    background-color: cornflowerblue;
+    font-size: 14px;
+    padding: 7px;
+    transition: background 0.4s ease;
+}
+
+button:hover:enabled {
+    background-color: royalblue;
+    cursor: pointer;
+}
+
+button:active:enabled {
+    border-bottom: 2px solid lightsteelblue;
+    background-color: royalblue;
+}
+
+button:disabled {
+    color: silver;
+}
+
+.popup {
+    position: absolute;
+    top: 200px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 800px;
+    height: 400px;
+    background-color: white;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    border: 2px solid royalblue;
+}
+
+.popup-close {
+    text-align: right;
+    padding: 5px;
+}
+
+.popup-text {
+    overflow: auto;
+    height: 365px;
+}
+
+.popup-text strong {
+    font-family: monospace;
+}
+
+.tape-panel {
+    margin-bottom: 5px;
+}
+
+.tape-panel input[type=text] {
+    border: 1px solid royalblue;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    font-size: 20px;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+}
+
+.tape-panel input[type=text]:focus {
+    outline: none;
+    border: 2px solid deeppink;
+}
+
+.tape-panel p {
+    text-align: center;
+    padding: 0;
+    font-size: 17px;
+}
+
+.tape-panel span {
+    display: inline-block;
+    margin: 0 1px;
+}
+
+.tape-panel-button {
+    vertical-align: top;
+}
+
+.tape-panel-button button {
+    height: 50px;
+}
+
+#svg-box {
+    height: 602px;
+}
+
+.number-input {
+    text-align: center;
+    width: 65px;
+}
+
+.spoiler-content {
+    display: none;
+}
+
+.spoiler-header {
+    cursor: pointer;
+    color: royalblue;
+    border-bottom: 1px dashed royalblue;
+}
+
+.msg {
+    font-size: 14px;
+    color: gray;
+}
+
+hr {
+    border: 1px solid royalblue;
+    width: 90%;
+    margin: 3px auto;
+}
+
+.n-table td {
+    width: 30px;
+    height: 30px;
+    border: 1px solid royalblue;
+    cursor: pointer;
+}
+
+.n-active {
+    background-color: cornflowerblue;
+}
+
+.n-table td.n-center {
+    border: 2px solid hotpink;
+}
+
+.n-table td.n-disabled {
+    border: 1px solid gray;
+    background-color: gray;
+    cursor: default;
+}
+
+.n-table td.n-disabled.n-center {
+    border: 2px solid black;
+}
